@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:11:34 by rgelin            #+#    #+#             */
-/*   Updated: 2022/02/24 17:45:04 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/02/24 22:52:24 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,11 @@ void	put_figure_on_draw_zone(t_figure *figure)
 		j = -1;
 		while (figure->draw_zone[i][++j])
 		{
-			distance = sqrtf(((float)j - figure->x_center) * ((float)j - figure->x_center) + ((float)i - figure->y_center) * ((float)i - figure->y_center));
-			if (figure->c_char == 'C' && distance <= figure->radius)
+			distance = sqrtf(((float)j - figure->x_center) * ((float)j - figure->x_center)
+								+ ((float)i - figure->y_center) * ((float)i - figure->y_center));
+			if (figure->c_char == 'C' && distance <= figure->radius) //a retenir
 				figure->draw_zone[i][j] = figure->fig_char;
-			else if (figure->c_char == 'c' && (distance - figure->radius < 1 && distance - figure->radius > 0))
+			else if (figure->c_char == 'c' && (distance - figure->radius < 1 && distance - figure->radius > 0)) // a retenir
 				figure->draw_zone[i][j] = figure->fig_char;
 		}
 	}
