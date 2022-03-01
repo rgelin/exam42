@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:28:06 by rgelin            #+#    #+#             */
-/*   Updated: 2022/03/01 16:44:15 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/03/01 17:30:57 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,18 @@ void	put_figure_on_draw_zone(t_figure *figure)
 		j = -1;
 		while (figure->draw_zone[i][++j])
 		{
-			if (figure->r_char == 'R' && (figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
-				figure->draw_zone[i][j] = figure->fig_char;
-			if (figure->r_char == 'r' && (figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
+			if ((figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
 			{
+				if (figure->r_char == 'R')
+					figure->draw_zone[i][j] = figure->fig_char;
+				if (figure->r_char == 'r')
+				{
 					if (((float)j - figure->Xtl < (float)1 // left border
 						|| (float)i - figure->Ytl < (float)1 // top border
 						|| figure->Xbr - (float)j < (float)1 // rigth border
 						|| figure->Ybr - (float)i < (float)1)) // bottom border
 					figure->draw_zone[i][j] = figure->fig_char;
+				}
 			}
 		}
 	}
