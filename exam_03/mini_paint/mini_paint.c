@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:11:34 by rgelin            #+#    #+#             */
-/*   Updated: 2022/02/24 22:52:24 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/03/01 15:57:25 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,14 @@ void	put_figure_on_draw_zone(t_figure *figure)
 		j = -1;
 		while (figure->draw_zone[i][++j])
 		{
-			distance = sqrtf(((float)j - figure->x_center) * ((float)j - figure->x_center)
-								+ ((float)i - figure->y_center) * ((float)i - figure->y_center));
-			if (figure->c_char == 'C' && distance <= figure->radius) //a retenir
+			distance = sqrtf(powf((float)j - figure->x_center, (float)2) + powf((float)i - figure->y_center, (float)2));
+			if (figure->c_char == 'C' && distance <= figure->radius)
 				figure->draw_zone[i][j] = figure->fig_char;
-			else if (figure->c_char == 'c' && (distance - figure->radius < 1 && distance - figure->radius > 0)) // a retenir
-				figure->draw_zone[i][j] = figure->fig_char;
+			if (figure->c_char == 'c' && distance <= figure->radius)
+			{
+				if (figure->radius - distance < (float)1)
+					figure->draw_zone[i][j] = figure->fig_char;
+			}
 		}
 	}
 }
@@ -152,7 +154,7 @@ int	get_figure(FILE *file, t_figure *figure)
 	int	ret;
 
 	ret = fscanf(file, " %c %f %f %f %c", &figure->c_char, &figure->x_center, &figure->y_center, &figure->radius, &figure->fig_char);
-	if (ret != 5)
+	if (ret != 5 && ret != -1)
 		return (ft_perror(NULL, "Error: Operation file corrupted\n", 1));
 	while (ret == 5)
 	{
