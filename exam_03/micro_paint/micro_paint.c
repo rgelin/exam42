@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:28:06 by rgelin            #+#    #+#             */
-/*   Updated: 2022/03/01 16:14:55 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/03/01 16:44:15 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,10 @@ void	put_figure_on_draw_zone(t_figure *figure)
 				figure->draw_zone[i][j] = figure->fig_char;
 			if (figure->r_char == 'r' && (figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
 			{
-					if (((float)j - figure->Xtl < (float)1 
-						|| (float)i - figure->Ytl < (float)1 
-						|| ((float)j - figure->Xbr < (float)1 && figure->Xbr - (float)j < (float)1)
-						|| ((float)i - figure->Ybr < (float)1 && figure->Ybr - (float)i < (float)1)))
+					if (((float)j - figure->Xtl < (float)1 // left border
+						|| (float)i - figure->Ytl < (float)1 // top border
+						|| figure->Xbr - (float)j < (float)1 // rigth border
+						|| figure->Ybr - (float)i < (float)1)) // bottom border
 					figure->draw_zone[i][j] = figure->fig_char;
 			}
 		}
