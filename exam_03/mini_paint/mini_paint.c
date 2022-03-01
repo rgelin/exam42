@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:11:34 by rgelin            #+#    #+#             */
-/*   Updated: 2022/03/01 15:57:25 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/03/01 15:59:38 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_free(t_figure *figure)
 		free(figure->draw_zone);
 	}
 }
+
 int		ft_perror(t_figure *figure, char *msg_error, int return_value)
 {
 	int i;
