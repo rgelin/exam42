@@ -6,7 +6,7 @@
 /*   By: rgelin <rgelin@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:28:06 by rgelin            #+#    #+#             */
-/*   Updated: 2022/02/24 23:05:10 by rgelin           ###   ########.fr       */
+/*   Updated: 2022/03/01 16:14:55 by rgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,21 +128,10 @@ int	get_zone(FILE *file, t_zone *zone, t_figure *figure)
 	return (ft_perror(NULL, "Error: Operation file corrupted\n", 1));
 }
 
-
-// Hint:
-// If a point is defined as (Xa, Ya)
-// And a rectangle with a top left corner (Xtl, Ytl) and a bottom right corner (Xbr, Ybr)
-// If Xtl <= Xa <= Xbr and Ytl <= Ya <= Ybr then the point is in the rectangle
-
-
-//Ybr = Ytl + heigth
-//Xbr = Xtl + width
-
 void	put_figure_on_draw_zone(t_figure *figure)
 {
 	int	i;
 	int	j;
-	// float distance;
 	
 	i = -1;
 	while (figure->draw_zone[++i])
@@ -152,24 +141,13 @@ void	put_figure_on_draw_zone(t_figure *figure)
 		{
 			if (figure->r_char == 'R' && (figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
 				figure->draw_zone[i][j] = figure->fig_char;
-			if (figure->r_char == 'r')
+			if (figure->r_char == 'r' && (figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr))
 			{
-				if ((figure->Xtl <= (float)j && (float)j <= figure->Xbr) && (figure->Ytl <= (float)i && (float)i <= figure->Ybr)
-					&& ((float)j - figure->Xtl < (float)1))
+					if (((float)j - figure->Xtl < (float)1 
+						|| (float)i - figure->Ytl < (float)1 
+						|| ((float)j - figure->Xbr < (float)1 && figure->Xbr - (float)j < (float)1)
+						|| ((float)i - figure->Ybr < (float)1 && figure->Ybr - (float)i < (float)1)))
 					figure->draw_zone[i][j] = figure->fig_char;
-				// if (((j <=  figure->Xtl && j + 1 >= figure->Xtl) && (i >= figure->Ytl && i <= figure->Ybr)))
-				// 	figure->draw_zone[i][j] = figure->fig_char;
-				// if (((j <=  figure->Xbr && j + 1 >= figure->Xbr) && (i >= figure->Ytl && i <= figure->Ybr)))
-				// 	figure->draw_zone[i][j] = figure->fig_char;
-				// if (((i <=  figure->Ytl && i + 1 >= figure->Ytl) && (j >= figure->Xtl && j <= figure->Xbr)))
-				// 	figure->draw_zone[i][j] = figure->fig_char;
-				// if (((i <=  figure->Ybr && i + 1 >= figure->Ybr) && (j >= figure->Xtl && j <= figure->Xbr)))
-				// 	figure->draw_zone[i][j] = figure->fig_char;
-				
-// A pixel with a top left corner with a distance bigger or equal than 1 from the border of a rectangle is not part of an empty rectangle 
-// A pixel with a top left corner with a distance lower than 1 from the border of a rectangle is part of an empty rectangle.
-				// if (j - figure->Xtl < 1 && )
-				
 			}
 		}
 	}
@@ -180,7 +158,7 @@ int	get_figure(FILE *file, t_figure *figure)
 	int	ret;
 
 	ret = fscanf(file, " %c %f %f %f %f %c", &figure->r_char, &figure->Xtl, &figure->Ytl, &figure->width, &figure->heigth, &figure->fig_char);
-	if (ret != 6)
+	if (ret != 6 && ret != -1)
 		return (ft_perror(NULL, "Error: Operation file corrupted\n", 1));
 	while (ret == 6)
 	{
